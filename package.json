@@ -1,0 +1,32 @@
+{
+    "name": "loggette",
+    "description": "A micrologger for your apps. Basics-only.",
+    "version": "1.0.2",
+    "license": "GPL-3.0-only",
+    "module": "index.ts",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "prepublishOnly": "tsup"
+    },
+    "author": {
+        "name": "Back",
+        "email": "me@back.rs",
+        "url": "https://back.rs"
+    },
+    "exports": {
+        ".": {
+            "node": "./dist/index.js",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "devDependencies": {
+        "@types/bun": "^1.3.14",
+        "@types/node": "^26.0.0",
+        "tsup": "^8.5.1",
+        "typescript": "^6.0.3"
+    }
+}
