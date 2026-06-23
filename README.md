@@ -63,7 +63,7 @@ logger.info(`Database ${db.name} connected.`)
 
 ####
 > [!NOTE]
-> Interpolated are only processed using String() so data types like object may print as "[object, Object]".
+> Interpolated values are only processed using String() so data types like objects may print as "[object, Object]".
 > Validate the values yourself as this is only a minimal logger.
 
 ## Log Levels
