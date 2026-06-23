@@ -20,7 +20,7 @@ Depending on your package manager:
 ## Usage
 ### Default logger
 ```typescript
-import logger from "./logger";
+import logger from "loggette";
 
 logger.info`Server started on port ${port}`
 .warn`Config file not found, using defaults`
@@ -31,7 +31,7 @@ logger.info`Server started on port ${port}`
 ### Custom logger
 
 ```typescript
-import { createLogger } from "./logger";
+import { createLogger } from "loggette";
 
 const logger = createLogger("debug");
 
