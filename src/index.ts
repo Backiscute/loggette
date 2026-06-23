@@ -31,23 +31,31 @@ export function createLogger(level: LogLevel, useColor?: boolean) {
 
     const log = (l: LogLevel) => {
         /**
-         * Log at this level. Accepts a template literal — interpolated values are highlighted.
+         * Log at this level.
+         * Accepts:
+         * - a template literal - interpolated values are highlighted.
+         * - a string - no values are highlighted
          * @example
-         * logger.info`Connected to ${host}:${port}`
+         * logger.info`Connected to ${"localhost"}:${5432}`
+         * // the values "localhost" and "5432" are colored
          */
-        return (base: TemplateStringsArray, ...parts: string[]) => {
+        function print(input: string | TemplateStringsArray, ...parts: any[]) {
             if (LogLevel.indexOf(l) > LogLevel.indexOf(level)) return () => {};
             
             let str = `${shouldUseColor() ? Colors.date : ""}${new Date().toISOString()}${Colors.reset} ${shouldUseColor() ? Colors[l] : ""}${l.toUpperCase().padEnd(5, " ")}:${Colors.reset} `;
 
-            for (let i = 0; i < base.length; i++) {
-                str += base[i];
-                if (i < parts.length) str += `${shouldUseColor() ? Colors[l] : ""}${String(parts[i])}${Colors.reset}`;
-            };
+            if (Array.isArray(input)) 
+                for (let i = 0; i < input.length; i++) {
+                    str += input[i];
+                    if (i < parts.length) str += `${shouldUseColor() ? Colors[l] : ""}${String(parts[i])}${Colors.reset}`;
+                }
+            else str += input;
             
             console[l](str);
             return logger;
         };
+
+        return print;
     };
 
     const logger = {
@@ -94,5 +102,19 @@ function getDefaultLevel(): LogLevel {
 }
 
 let defaultLogger = createLogger(getDefaultLevel());
+
+export type TemplateLiteral = [TemplateStringsArray, ...string[]];
+/**
+ * Template literal helper that returns the raw structure. Useful if you'd like to save a message with highlights to reuse later.
+ *
+ * @param base - The template strings array provided by the tagged template literal.
+ * @param parts - Interpolated values inserted into the template.
+ * @returns A tuple containing the original template strings and all interpolated parts.
+ *
+ * @example
+ * const t = template`hello ${"world"}`;
+ * // [["hello "], "world"]
+ */
+export const template = (base: TemplateStringsArray, ...parts: string[]) => [base, ...parts] as TemplateLiteral;
 
 export default defaultLogger

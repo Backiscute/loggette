@@ -23,7 +23,7 @@ Depending on your package manager:
 import logger from "loggette";
 
 logger.info`Server started on port ${port}`
-.warn`Config file not found, using defaults`
+.warn(`Config file ${"config.json"} not found, using defaults`)
 .error`Failed to connect to database: ${err.message}`
 .debug`Parsed payload: ${JSON.stringify(payload)}`;
 ```
@@ -40,22 +40,31 @@ logger.debug`This will show`;
 
 ### Chaining
 
-Configuration methods return the logger instance, so they can be chained:
+All methods return the logger instance, so they can be chained:
 
 ```typescript
 const logger = createLogger("info")
     .setLevel("debug")
     .setUseColor(false)
-    .setDefault();
+    .setDefault()
+    .debug("test") // not printed
+    .info`Logged in as ${username}`;
 ```
 
 ### Template literals
 Interpolated values are highlighted in the level's color:
 
 ```typescript
-logger.info`Connected to ${"localhost"}:${"5432"}`;
+logger.info`Connected to ${"localhost"}:${5432}`;
 // the values "localhost" and "5432" are colored
+logger.info(`Database ${db.name} connected.`)
+// db.name is not highlighted
 ```
+
+####
+> [!NOTE]
+> Interpolated are only processed using String() so data types like object may print as "[object, Object]".
+> Validate the values yourself as this is only a minimal logger.
 
 ## Log Levels
 Levels are ordered by severity. Setting a level suppresses everything below it.
