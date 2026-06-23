@@ -1,7 +1,7 @@
 {
     "name": "loggette",
     "description": "A micrologger for your apps. Basics-only.",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "license": "GPL-3.0-only",
     "module": "index.ts",
     "type": "module",

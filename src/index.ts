@@ -40,7 +40,7 @@ export function createLogger(level: LogLevel, useColor?: boolean) {
          * // the values "localhost" and "5432" are colored
          */
         function print(input: string | TemplateStringsArray, ...parts: any[]) {
-            if (LogLevel.indexOf(l) > LogLevel.indexOf(level)) return () => {};
+            if (LogLevel.indexOf(l) > LogLevel.indexOf(level)) return () => logger;
             
             let str = `${shouldUseColor() ? Colors.date : ""}${new Date().toISOString()}${Colors.reset} ${shouldUseColor() ? Colors[l] : ""}${l.toUpperCase().padEnd(5, " ")}:${Colors.reset} `;
 
